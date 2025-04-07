@@ -54,20 +54,18 @@ exports.createCity = async (req, res) => {
     console.log(req.files['heroImg']);
 
     const imagesFiles = req.files && req.files['images'] ?
-      req.files['images'].map(file => file.path) :
-      [];
+      req.files['images'].map(file => file.path) : [];
 
     const giftImagesFiles = req.files && req.files['giftImages'] ?
-      req.files['giftImages'].map(file => file.path) :
-      [];
+      req.files['giftImages'].map(file => file.path) : [];
 
     const kitchenImagesFiles = req.files && req.files['kitchenImages'] ?
-      req.files['kitchenImages'].map(file => file.path) :
-      [];
+      req.files['kitchenImages'].map(file => file.path) : [];
     const coordinates = {
       latitude: req.body.latitude,
       longitude: req.body.longitude
     };
+
 
 
     const city = new City({
@@ -78,7 +76,7 @@ exports.createCity = async (req, res) => {
       heroDesc,
       heroImg: heroImgPath,
       popularDesc,
-      popularArr,
+      popularArr: popularArr,
       videoUrl,
       tempDesc,
       giftDesc,
@@ -106,6 +104,7 @@ exports.createCity = async (req, res) => {
           videoUrl,
           tempDesc,
           giftDesc,
+          giftImages: giftImagesFiles,
           kitchenDesc,
           kitchenImages: kitchenImagesFiles,
           images: imagesFiles,
@@ -114,9 +113,10 @@ exports.createCity = async (req, res) => {
       }
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       message: 'Invalid data',
-      error
+      error: error.message
     });
   }
 };

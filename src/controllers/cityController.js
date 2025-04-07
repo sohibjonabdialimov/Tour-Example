@@ -26,13 +26,23 @@ exports.getCityById = async (req, res) => {
 exports.createCity = async (req, res) => {
   try {
     const {
-      name,
-      shortDescription,
-      title,
-      fullDescription,
-      youtubeLink,
-      mapLink,
-      infoSections
+      cityName,
+      desc,
+      bg,
+      heroTitle,
+      heroDesc,
+      heroImg,
+      popularDesc,
+      popularArr,
+      videoUrl,
+      tempDesc,
+      giftDesc,
+      giftImages,
+      kitchenDesc,
+      kitchenImages,
+      images,
+      historyDesc,
+      coordinates
     } = req.body;
 
     const mainImage = req.files && req.files['mainImage']
@@ -40,7 +50,7 @@ exports.createCity = async (req, res) => {
       : null;
     console.log(req.files['mainImage']);
     
-    const images = req.files && req.files['images']
+    const imagesFiles = req.files && req.files['images']
       ? req.files['images'].map(file => file.path)
       : [];
 
@@ -52,7 +62,7 @@ exports.createCity = async (req, res) => {
       youtubeLink,
       mapLink,
       mainImage: mainImage,
-      images: images, 
+      images: imagesFiles, 
       infoSections: infoSections ? JSON.parse(infoSections) : []
     });
 

@@ -13,12 +13,20 @@ router.get('/:id', cityController.getCityById);
 router.post(
   '/',
   upload.fields([{
-      name: 'mainImage',
+      name: 'heroImg',
       maxCount: 1
     },
     {
       name: 'images',
-      maxCount: 5
+      maxCount: 10
+    },
+    {
+      name: 'giftImages',
+      maxCount: 10
+    },
+    {
+      name: 'kitchenImages',
+      maxCount: 10
     }
   ]),
   cityController.createCity

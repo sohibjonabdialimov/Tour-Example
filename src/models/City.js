@@ -1,23 +1,26 @@
 const mongoose = require('mongoose');
 
 const CitySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  mainImage: { type: String, required: true },
-  shortDescription: { type: String, required: true },
-  title: { type: String },
-  fullDescription: { type: String },
-  youtubeLink: { type: String },
-  mapLink: { type: String },
-  infoSections: [{
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    images: [String]
-  }],
+  cityName: { type: String, required: true },
+  desc: { type: String, required: true },
+  bg: { type: String, required: true },
+  heroTitle: { type: String, required: true },
+  heroDesc: { type: String, required: true },
+  heroImg: { type: String, required: true },
+  popularDesc: { type: String, required: true },
+  popularArr: { type: [String], required: true },
+  videoUrl: { type: String, required: true },
+  tempDesc: { type: String, required: true },
+  giftDesc: { type: String, required: true },
+  giftImages: { type: [String], required: true },
+  kitchenDesc: { type: String, required: true },
+  kitchenImages: { type: [String], required: false },
+  historyDesc: { type: String, required: false },
   coordinates: {
-    latitude: Number,
-    longitude: Number,
+    latitude: { type: Number, required: false },
+    longitude: { type: Number, required: false },
   },
-  images: [String],
+  images: { type: [String], required: false },
 }, { timestamps: true }); 
 
 module.exports = mongoose.model('City', CitySchema);

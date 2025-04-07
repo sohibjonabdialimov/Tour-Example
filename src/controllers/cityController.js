@@ -5,7 +5,10 @@ exports.getAllCities = async (req, res) => {
     const cities = await City.find({}, 'name mainImage shortDescription');
     res.status(200).json(cities);
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error });
+    res.status(500).json({
+      message: 'Server Error',
+      error
+    });
   }
 };
 
@@ -14,12 +17,17 @@ exports.getCityById = async (req, res) => {
     const city = await City.findById(req.params.id);
 
     if (!city) {
-      return res.status(404).json({ message: 'City not found' });
+      return res.status(404).json({
+        message: 'City not found'
+      });
     }
 
     res.status(200).json(city);
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error });
+    res.status(500).json({
+      message: 'Server Error',
+      error
+    });
   }
 };
 
@@ -31,39 +39,55 @@ exports.createCity = async (req, res) => {
       bg,
       heroTitle,
       heroDesc,
-      heroImg,
       popularDesc,
       popularArr,
       videoUrl,
       tempDesc,
       giftDesc,
-      giftImages,
       kitchenDesc,
-      kitchenImages,
-      images,
       historyDesc,
-      coordinates
     } = req.body;
 
-    const mainImage = req.files && req.files['mainImage']
-      ? req.files['mainImage'][0].path
-      : null;
-    console.log(req.files['mainImage']);
-    
-    const imagesFiles = req.files && req.files['images']
-      ? req.files['images'].map(file => file.path)
-      : [];
+    const heroImgPath = req.files && req.files['heroImg'] ?
+      req.files['heroImg'][0].path :
+      null;
+    console.log(req.files['heroImg']);
+
+    const imagesFiles = req.files && req.files['images'] ?
+      req.files['images'].map(file => file.path) :
+      [];
+
+    const giftImagesFiles = req.files && req.files['giftImages'] ?
+      req.files['giftImages'].map(file => file.path) :
+      [];
+
+    const kitchenImagesFiles = req.files && req.files['kitchenImages'] ?
+      req.files['kitchenImages'].map(file => file.path) :
+      [];
+    const coordinates = {
+      latitude: req.body.latitude,
+      longitude: req.body.longitude
+    };
+
 
     const city = new City({
-      name,
-      shortDescription,
-      title,
-      fullDescription,
-      youtubeLink,
-      mapLink,
-      mainImage: mainImage,
-      images: imagesFiles, 
-      infoSections: infoSections ? JSON.parse(infoSections) : []
+      cityName,
+      desc,
+      bg,
+      heroTitle,
+      heroDesc,
+      heroImg: heroImgPath,
+      popularDesc,
+      popularArr,
+      videoUrl,
+      tempDesc,
+      giftDesc,
+      giftImages: giftImagesFiles,
+      kitchenDesc,
+      kitchenImages: kitchenImagesFiles,
+      images: imagesFiles,
+      historyDesc,
+      coordinates
     });
 
     await city.save();
@@ -71,19 +95,29 @@ exports.createCity = async (req, res) => {
       data: {
         message: 'City created successfully',
         city: {
-          name,
-          shortDescription,
-          title,
-          fullDescription,
-          youtubeLink,
-          mapLink,
-          infoSections,
-          images
+          cityName,
+          desc,
+          bg,
+          heroTitle,
+          heroDesc,
+          heroImg: heroImgPath,
+          popularDesc,
+          popularArr,
+          videoUrl,
+          tempDesc,
+          giftDesc,
+          kitchenDesc,
+          kitchenImages: kitchenImagesFiles,
+          images: imagesFiles,
+          historyDesc,
         }
       }
     });
   } catch (error) {
-    res.status(400).json({ message: 'Invalid data', error });
+    res.status(400).json({
+      message: 'Invalid data',
+      error
+    });
   }
 };
 
@@ -97,12 +131,17 @@ exports.updateCity = async (req, res) => {
     });
 
     if (!updatedCity) {
-      return res.status(404).json({ message: 'City not found' });
+      return res.status(404).json({
+        message: 'City not found'
+      });
     }
 
     res.status(200).json(updatedCity);
   } catch (error) {
-    res.status(400).json({ message: 'Invalid data', error });
+    res.status(400).json({
+      message: 'Invalid data',
+      error
+    });
   }
 };
 
@@ -111,11 +150,18 @@ exports.deleteCity = async (req, res) => {
     const deletedCity = await City.findByIdAndDelete(req.params.id);
 
     if (!deletedCity) {
-      return res.status(404).json({ message: 'City not found' });
+      return res.status(404).json({
+        message: 'City not found'
+      });
     }
 
-    res.status(200).json({ message: 'City deleted successfully' });
+    res.status(200).json({
+      message: 'City deleted successfully'
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error });
+    res.status(500).json({
+      message: 'Server Error',
+      error
+    });
   }
 };

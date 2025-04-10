@@ -2,7 +2,7 @@ const City = require('../models/City');
 
 exports.getAllCities = async (req, res) => {
   try {
-    const cities = await City.find({}, 'name mainImage shortDescription');
+    const cities = await City.find({}, 'cityName desc bg heroTitle heroDesc popularDesc popularArr videoUrl tempDesc giftDesc kitchenDesc historyDesc coordinates infoList');
     res.status(200).json(cities);
   } catch (error) {
     res.status(500).json({
@@ -46,6 +46,7 @@ exports.createCity = async (req, res) => {
       giftDesc,
       kitchenDesc,
       historyDesc,
+      infoList = []
     } = req.body;
 
     const heroImgPath = req.files && req.files['heroImg'] ?
@@ -76,7 +77,7 @@ exports.createCity = async (req, res) => {
       heroDesc,
       heroImg: heroImgPath,
       popularDesc,
-      popularArr: popularArr,
+      popularArr,
       videoUrl,
       tempDesc,
       giftDesc,
@@ -85,7 +86,8 @@ exports.createCity = async (req, res) => {
       kitchenImages: kitchenImagesFiles,
       images: imagesFiles,
       historyDesc,
-      coordinates
+      coordinates,
+      infoList: infoList ? JSON.parse(infoList) : []
     });
 
     await city.save();
@@ -109,6 +111,7 @@ exports.createCity = async (req, res) => {
           kitchenImages: kitchenImagesFiles,
           images: imagesFiles,
           historyDesc,
+          infoList
         }
       }
     });

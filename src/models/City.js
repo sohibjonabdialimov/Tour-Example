@@ -20,7 +20,7 @@ const CitySchema = new mongoose.Schema({
     latitude: { type: Number, required: false },
     longitude: { type: Number, required: false },
   },
-  images: { type: [String], required: false },
+  images: { type: [String], required: false },  
   infoList: [{
     name: { type: String, required: false },
     img: { type: String, required: false }

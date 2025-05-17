@@ -21,10 +21,6 @@ const CitySchema = new mongoose.Schema({
     longitude: { type: Number, required: false },
   },
   images: { type: [String], required: false },  
-  infoList: [{
-    name: { type: String, required: false },
-    img: { type: String, required: false }
-  }]
 }, { timestamps: true }); 
 
 module.exports = mongoose.model('City', CitySchema);
